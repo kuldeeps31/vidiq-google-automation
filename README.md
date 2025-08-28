@@ -1,102 +1,80 @@
+# vidiq-automation-tool
 
 
-<!-- vidiq-automation-tool -->
+## Objective
 
+The Node.js automation tool that:
+1. Reads keywords and VidIQ links from Google Sheet  
+2. Logs into VidIQ (via Puppeteer)  
+3. Scrapes **Search Volume, Competition, Score**  
+4. Writes results back to Google Sheet (columns D, E, F)  
+5. Appends formatted results to Google Doc  
 
-<!-- objective... -->
+---
 
-The node.js automation tool
-1->read keywords and vidiq links from google sheet
-2->login into VIDiq(via puppeteer);
-3->scrapes search volume,competition,score
-4->writes result back to goodle sheet ,d,e,f
-5->append formaated result to google doc
+## File Structure
+- `server.js` → Main entry point  
+- `sheets.js` → Google Sheets API functions (read/write)  
+- `docs.js` → Google Docs API functions (append)  
+- `vidiqScraper.js` → Scraping + Login logic  
+- `.env` → Credentials & environment config  
+- `.gitignore`  
+- `credentials.json` → Google service account key  
 
+---
 
-<!-- file structure -->
-server.js -main entry poinnt
-sheets.js -google sheet API funtion(read,write)
-docs.js -  google docs API function(append);
-.env - credentials
-.gitignore
-readme.md
-vidiqScraper.js =scraping + login
-credentials.json->json key
+## Google Cloud Console Setup (Sheets + Docs API)
 
+1. **Create Google Cloud Project**  
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)  
+   - Click on **New Project** → Enter project name (e.g., `automation-node`) → Create  
 
+2. **Enable APIs**  
+   - Select project → Navigation Menu → APIs & Services → Library  
+   - Enable: **Google Sheets API** & **Google Docs API**  
 
-<!-- google cloud console setup (sheets + docs API) -->
-1-->make  google cloud project
-  ->go to google cloud console
-  ->click on new project
-  ->enter project name (like automation-node) and  create
+3. **Create Service Account**  
+   - Navigation Menu → IAM & Admin → Service Accounts  
+   - Click **Create Service Account**  
+   - Enter name (e.g., `automation-node`)  
+   - Assign role: **Editor**  
+   - Open the Service Account → Go to **Keys** tab → Add Key → Create new key → Choose **JSON** → Download  
 
-2->Enable the APis
+4. **Add credentials.json**  
+   - Put downloaded JSON file in project root as `credentials.json`  
+   - Reference its path in `.env`  
 
-->select project go to navigaton menu->APIs and services->library
-->enable->google docs & google sheet
+5. **Share Google Sheet & Doc**  
+   - Open your Google Sheet and Doc  
+   - Click **Share** → Add the `client_email` from `credentials.json` → Give **Editor** access  
 
+---
 
-3->create service account
-
-->Navigation menu-> IAM and Admin ->service account
-->click on create service account
-->enter service name (like automation-node)
-->seleect the role ->editor
-->after that click on service account and then on the top go to key tab->Add key ->create new key->select json
-->download the json format
-
-4->put the downlaod json in root as (credentials.json)
-->now specify the path in .env 
-
-5->Share the sheet and docs
-->open the google sheet and google docs
-->click on the share button at  top right
-->now (credentials.json->client_email) put this email and provide editor access and send
-
-
-
-
-
-
-
-
-
-
-<!-- Clone repo & install deps -->
+## Clone Repo & Install Dependencies
 ```bash
 git clone https://github.com/kuldeeps31/vidiq-google-automation.git
-
 cd vidiq-google-automation
 npm install
 
-# run the automation 
-node server.js
 
 
 
-# setup
-.env
-# Vidiqlogin
+# .ENV
+# VidIQ login
 VIDIQ_EMAIL=your-vidiq-email
 VIDIQ_PASSWORD=your-vidiq-password
 
-# google  sheet and docs
+# Google Sheet & Docs IDs
 SHEET_ID=your-google-sheet-id
 DOCS_ID=your-google-doc-id
 
-# google service account
+# Google service account credentials
 GOOGLE_PROJECT_ID=your-project-id
 GOOGLE_CLIENT_EMAIL=your-service-account-email
-GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nABC123....\n-----END PRIVATE
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nABC123...\n-----END PRIVATE-----"
 
 
 
-# Login Note
 
-VidIQ login automation via Google Sign-In is not directly possible (because of Google Auth & reCAPTCHA).  
-
-**Solution used in this project**:  
-We reuse an existing Chrome user profile that is already logged into VidIQ.  
-This way, Puppeteer launches with saved login state, and scraping works without re-login.
-
+## RUN THE AUTOMATION
+node server.js
