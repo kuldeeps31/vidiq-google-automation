@@ -1,0 +1,18 @@
+[
+  {
+    "name": "vidiq_is_user_logged_in",
+    "value": "1",
+    "domain": ".vidiq.com",
+    "path": "/",
+    "httpOnly": false,
+    "secure": true
+  },
+  {
+    "name": "vidiq_device_id",
+    "value": "b67ea3d5-e469-4da3-a8b4-b3c0a80da82bR",
+    "domain": ".vidiq.com",
+    "path": "/",
+    "httpOnly": false,
+    "secure": true
+  }
+]
