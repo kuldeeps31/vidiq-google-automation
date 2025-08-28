@@ -71,6 +71,8 @@ async function readSheetData() {
 
 // }
 
+
+
 // Write batch scraped data into sheet
 async function writeBatchData(startRow, batchResults) {
   try {
@@ -92,9 +94,9 @@ async function writeBatchData(startRow, batchResults) {
       requestBody: { values },
     });
 
-    console.log("✅ Batch updated in sheet");
+    console.log(" Batch updated in sheet");
   } catch (err) {
-    console.error("❌ Error writing batch:", err.message);
+    console.error(" Error writing batch:", err.message);
   }
 }
 

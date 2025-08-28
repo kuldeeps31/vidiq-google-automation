@@ -1,10 +1,28 @@
 
 const puppeteer = require("puppeteer");
+const fs=require("fs");
 
-async function scrapeVidIQ(url, keyword) {
+
+// for login->it failed
+// async function loginVidIQ(page) {
+//   await page.goto("https://vidiq.com/login", { waitUntil: "networkidle2" });
+ 
+
+//   await page.type("input[data-testid='form-input-email']", process.env.VIDIQ_EMAIL, { delay: 50 });
+//   await page.type("input[data-testid='form-input-password']", process.env.VIDIQ_PASSWORD, { delay: 50 });
+
+//   await Promise.all([
+//     page.click("button[data-testid='login-button']"),
+//     page.waitForNavigation({ waitUntil: "networkidle2" }),
+//   ]);
+
+//   console.log("ogged into VidIQ");
+// }
+
+
+
+async function scrapeVidIQ(page,url, keyword) {
   
-  const browser = await puppeteer.launch({ headless: false, slowMo: 50 }); // debug ke liye
-  const page = await browser.newPage();
 
   // 1. Go to VidIQ page
   await page.goto(url, { waitUntil: "networkidle2" });
@@ -14,9 +32,7 @@ async function scrapeVidIQ(url, keyword) {
 
   try {
     const searchBarValue = await page.$eval("input[name='search']", el => el.value);
-    // console.log(searchBarValue);
-    // console.log(keyword);
-
+   
     if (!searchBarValue.includes(keyword)) {
       console.warn(` Keyword not matching: expected ${keyword}, found ${searchBarValue}`);
     }
@@ -32,8 +48,7 @@ async function scrapeVidIQ(url, keyword) {
 
 
   
-  await browser.close();
-
+  // await browser.close();
 
   return {
     volume: parseInt(volume) || 0,
@@ -42,6 +57,10 @@ async function scrapeVidIQ(url, keyword) {
   };
 }
 
+
 module.exports = { scrapeVidIQ };
+
+
+
 
 
